@@ -1,5 +1,15 @@
-	function on_click(){
-		window.location.href = "side.html";
-	}
+var x = -5;
+var y = -6;
 
-	$('#button').click(on_click);
+function on_click(){
+	x = $('#p_num').val();
+	window.location.href = "side.html";
+	y = $('#p_num').val();
+}
+
+function other_click(){
+	$('#temp').text(x + " " + y);
+}
+
+$('#button').click(on_click);
+$('#other_button').click(other_click);
