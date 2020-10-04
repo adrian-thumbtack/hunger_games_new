@@ -22,7 +22,9 @@ function proceed_to_names(){
 
 function process_names(){
 //It's a function to process the names...
-	var temp = $(".name_entry");
+	var temp = $(".t_entry");
+	console.log(temp)
+	console.log($(temp).text());
 	//Make objects for each person because why not
 	for (var i=0; i<num_tributes; i++){
 		tributes.push({
