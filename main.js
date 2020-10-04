@@ -1,4 +1,5 @@
 function on_click(){
+	console.log("Click!");
 	//Function to create participant name div
 	num_tributes = $("#t_num").val();
 	if (num_tributes < 2){
@@ -10,6 +11,6 @@ function on_click(){
 	}
 }
 
-$('#button').click(on_click);
+$("#button").click(on_click);
 
 
