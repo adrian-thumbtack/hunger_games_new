@@ -1,9 +1,9 @@
 var num_tributes; //The number of tributes
 var tributes = []; //Objects describing the tributes (eventually)
-var event_text = []; //Keep track of current events in game
+//var event_text = []; //Keep track of current events in game
 
 const CORN_CHOICES = 3;
-const NUM_CHOICES = 0;
+const NUM_CHOICES = 2;
 
 //And now the whole mess of items and events and whatnot
 const item_list = [{
