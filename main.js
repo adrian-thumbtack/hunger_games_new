@@ -32,6 +32,7 @@ function process_names(){
 }
 
 $("div#main #continue").click(proceed_to_names); //Main function goes to name screen
+$("#tribute_entry #continue").click(process_names);
 
 
 
