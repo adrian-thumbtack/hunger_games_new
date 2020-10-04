@@ -26,18 +26,22 @@ function generate_tributes(){
 		tributes.push({
 			name: $(this).val(),
 			t_id: tributes.length,
-			life: true
+			is_alive: true,
+			status: "Alive",
+			items: [],
+			num_items: 0
 		})
 	});
 	//Make objects for each person because why not, consisting of name and id
 }
 
 function generate_tribute_table(){
+	//Each time, generates a row and data corresponding to the player's name and status
 	for (var i=0; i<num_tributes; i++){
-		$("#tribute_table tbody").append(
-			$('<tr>').append(
-			$('<td>').text(tributes[i].name)
-		));
+		$("#t_table tbody").append($('<tr>')
+			.append($("<td>").text(tributes[i].name))
+			.append($("<td>").text(tributes[i].status))
+			);
 	}
 }
 
@@ -51,6 +55,4 @@ function submit_names(){
 
 $("div#main #continue").click(proceed_to_names); //Main function goes to name screen
 $("#tribute_entry #continue").click(submit_names);
-
-
 
