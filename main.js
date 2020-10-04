@@ -6,15 +6,14 @@ function on_click(){
 		alert("You can\'t fight a hunger games with just that many people, buddy");
 	}
 	else {
-		$("div#main").css("visibility", "hidden");
-		$("#tribute_entry").css("visibility", "visible");
-
 		for (var i=0; i<num_tributes; i++){
 			$('<input/>').attr({
 				"type": "text",
 				"class": "t_entry"
 			}).appendTo($("#tribute_entry"));
 		}
+		$("div#main").css("visibility", "hidden");
+		$("#tribute_entry").css("visibility", "visible");
 	}
 }
 
