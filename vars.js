@@ -1,1 +1,1 @@
-var x;
+var num_tributes;
