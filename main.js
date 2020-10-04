@@ -12,7 +12,7 @@ function on_click(){
 				$('<input/>').attr({
 				"type": "text",
 				"class": "t_entry"
-			})).prependTo($("#button_row"));
+			}))).prependTo($("#button_row"));
 		}
 		$("div#main").css("visibility", "hidden");
 		$("#tribute_entry").css("visibility", "visible");
