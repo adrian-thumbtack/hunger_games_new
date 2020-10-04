@@ -11,5 +11,9 @@ function other_click(){
 	$('#temp').text(x + " " + y);
 }
 
-$('#button').click(on_click);
-$('#other_button').click(other_click);
+if ($('body#main').length > 0){
+	$('#button').click(on_click);
+}
+else if ($('body#side').length > 0){
+	$('#other_button').click(other_click);
+}
