@@ -7,10 +7,10 @@ function on_click(){
 	}
 	else {
 		$("div#main").css("visibility", "hidden");
-		$("div#tribute_entry").css("visibility", "visible");
+		$("#tribute_entry").css("visibility", "visible");
 	}
 }
 
-$("main#continue").click(on_click);
+$("div#main #continue").click(on_click);
 
 
