@@ -12,7 +12,8 @@ function proceed_to_names(){
 				$('<td>').append(
 				$('<input/>').attr({
 				"type": "text",
-				"class": "t_entry"
+				"class": "t_entry",
+				"value": default_names[i]
 			}))).prependTo($("#input_table")); //Add to the beginning of the table
 		}
 		$("div#main").css("visibility", "hidden"); //Change the div that's visible to the add players screen

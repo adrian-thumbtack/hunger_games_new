@@ -3,7 +3,7 @@ var tributes = []; //Objects describing the tributes (eventually)
 //var event_text = []; //Keep track of current events in game
 
 const CORN_CHOICES = 3;
-const NUM_CHOICES = 2;
+var base_choices = [0, 1];
 
 //And now the whole mess of items and events and whatnot
 const item_list = [{
@@ -25,3 +25,14 @@ const item_list = [{
 ];	
 
 var LEN_ITEMS = item_list.length;
+
+const default_names = [
+"Katniss Everdeen",
+"Peeta Mellark",
+"Finnick Odair",
+"Johanna Mason",
+"Rue",
+"Thresh",
+"Cato",
+"Glimmer",
+"Foxface"];

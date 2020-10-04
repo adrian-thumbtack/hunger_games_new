@@ -15,7 +15,7 @@ function simulate_cornucopia(){
 		}
 		else if (choice === 1){
 			tribute.items.push(randint(LEN_ITEMS)); //Give player a random item, as determined by item index
-			event_string = `${tribute.name} found ${item_name(tribute.t_id)}`;
+			event_string = `${tribute.name} found ${item_name(tribute.t_id)} in the cornucopia`;
 		}
 		else if (choice === 2){
 			var target = tributes[tribute_order.pop()];
@@ -46,7 +46,7 @@ function simulate_day(){
 	while (tribute_order.length > 0){
 		var tribute = tributes[tribute_order.pop()];
 		var event_string = "";
-		var choices = get_choices(t);
+		var choices = get_choices(tribute);
 
 		var choice = choices[randint(choices.length)]; //Randomly generate a choice from the number of choices, weights to be decided later
 
@@ -56,24 +56,23 @@ function simulate_day(){
 		2 - use an item
 		*/
 		switch (choice){
-			case 0: some_function();
+			case 0: event_text.push("case 0");
 					break;
-			case 1: some_other_function();
+			case 1: event_text.push("case 1");
 					break;
 			case 2: var item_i = randint(tribute.items.length);
-					if (tributes.items[item_i].type === "weapon"){ use_weapon(tribute, tributes[randint(num_tributes)], item_i); }
-					else { use_item(tribute, item_i); }
+					if (item_list[tribute.items[item_i]].type === "weapon"){ event_text.push(use_weapon(tribute, tributes[randint(num_tributes)], item_i)); }
+					else { event_text.push(use_item(tribute, item_i)); }
 					break;
 		}
 	}
+
+	display_events(event_text);
 }
 
 function get_choices(tribute){
 	//function to add choices based on items in inventory and other factors
-	choices = [];
-	for (var i=0; i<BASE_CHOICES; i++){
-		choices.push(i);
-	}
+	choices = base_choices.slice();
 
 	if (tribute.items.length > 0){
 		choices.push(2); //Change to use constants later probably
@@ -83,14 +82,15 @@ function get_choices(tribute){
 }
 
 function use_item(tribute, item_i){
-	var ret = tribute.items[item_i].used;
+	var ret = item_list[tribute.items[item_i]].used;
+	
 	tribute.items.splice(item_i, 1);
 
 	return ret.replace("[player]", tribute.name);
 }
 
 function use_weapon(tribute, target, weapon_i){
-	var ret = tribute.items[weapon_i].used;
+	var ret = item_list[tribute.items[weapon_i]].used;
 	ret = ret.replace("[player]", tribute.name);
 	ret = ret.replace("[target]", target.name);
 
@@ -100,10 +100,10 @@ function use_weapon(tribute, target, weapon_i){
 }
 
 function display_events(event_text){
-	$("div#event_display").empty();
+	$("div#event_display #events").empty();
 
 	while(event_text.length > 0){
-		$("div#event_display").append(
+		$("div#event_display #events").append(
 			$('<p>').text(event_text.pop()));
 	}
 
@@ -143,3 +143,7 @@ function get_tribute_order(){
 
 	return temp;
 }
+
+
+$("#tribute_status #continue").click(simulate_cornucopia);
+$("#event_display #continue").click(simulate_day);
