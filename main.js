@@ -8,6 +8,13 @@ function on_click(){
 	else {
 		$("div#main").css("visibility", "hidden");
 		$("#tribute_entry").css("visibility", "visible");
+
+		for (var i=0; i<num_tributes; i++){
+			$('<input/>').attr({
+				"type": "text",
+				"class": "t_entry"
+			}).appendTo($("#tribute_entry"));
+		}
 	}
 }
 
