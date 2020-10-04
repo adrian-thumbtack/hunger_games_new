@@ -20,21 +20,37 @@ function proceed_to_names(){
 	}
 }
 
-function process_names(){
+function generate_tributes(){
 //It's a function to process the names...
-	var temp = $(".t_entry");
-	console.log(temp)
-	console.log($(temp).text());
-	//Make objects for each person because why not
-	for (var i=0; i<num_tributes; i++){
+	$(".t_entry").each(function(){
 		tributes.push({
-			name: temp[i]
-		});
+			name: $(this).val(),
+			t_id: tributes.length,
+			life: true
+		})
+	});
+	//Make objects for each person because why not, consisting of name and id
+}
+
+function generate_tribute_table(){
+	for (var i=0; i<num_tributes; i++){
+		$("#tribute_table tbody").append(
+			$('<tr>').append(
+			$('<td>').text(tributes[i].name)
+		));
 	}
 }
 
+function submit_names(){
+	generate_tributes(); //Generate code representing the tributes
+	generate_tribute_table(); //Generate table to be used to show status
+	
+	$("#tribute_entry").css("visibility", "hidden");
+	$("#tribute_status").css("visibility", "visible");
+}
+
 $("div#main #continue").click(proceed_to_names); //Main function goes to name screen
-$("#tribute_entry #continue").click(process_names);
+$("#tribute_entry #continue").click(submit_names);
 
 
 

@@ -1,13 +1,14 @@
 <!DOCTYPE html>
 <html>
 <head>
+	<meta charset="utf-8">
 	<title>Hunger Games Simulator 3.0</title>
 	<link type="text/css" rel="stylesheet" href="styles.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-	<script type="text/javascript" src="vars.js"></script>
+	<script type="text/javascript" src="js_files/vars.js"></script>
 </head>
 <body>
-	<div id="main">
+	<div id="main" class="container">
 		<h1 id="temp">Welcome to the Hunger Games Simulator!</h1>
 		<label>Participants
 			<input id="t_num" type="number"/>
@@ -15,7 +16,7 @@
 		<input id="continue" type="button" value="Continue"/>
 	</div>
 
-	<div id="tribute_entry">
+	<div id="tribute_entry" class="container">
 		<table>
 			<tbody id="input_table">
 				<tr><td><input id="continue" type="button" value="Continue"/></td></tr>
@@ -23,6 +24,16 @@
 		</table>
 	</div>
 
-<script type="text/javascript" src="main.js"></script>
+	<div id="tribute_status" class="container">
+		<table id="tribute_table">
+			<thead>
+				<tr><th>Tribute Name</th></tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+
+<script type="text/javascript" src="js_files/main.js"></script>
 </body>
 </html>
