@@ -7,11 +7,12 @@ function on_click(){
 	}
 	else {
 		for (var i=0; i<num_tributes; i++){
-			$('<tr><td>').append(
+			$('<tr>').append(
+				$('<td>').append(
 				$('<input/>').attr({
 				"type": "text",
 				"class": "t_entry"
-			})).prependTo($("#tribute_entry"));
+			})).prependTo($("#button_row"));
 		}
 		$("div#main").css("visibility", "hidden");
 		$("#tribute_entry").css("visibility", "visible");
