@@ -11,6 +11,6 @@ function on_click(){
 	}
 }
 
-$("#button").click(on_click);
+$("main#continue").click(on_click);
 
 
