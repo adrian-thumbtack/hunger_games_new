@@ -1,2 +1,2 @@
-# hunger_games_new
-New Hunger Games simulator
+# Hunger Games Simulator v0.3
+-coding differently, eventually adding different mechanics to the simulator, new events/items/etc.
