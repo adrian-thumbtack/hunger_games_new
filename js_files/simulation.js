@@ -1,4 +1,22 @@
+function one_day(){
+	if(day_num === 1){
+		//On the first day, the cornucopia event occurs
+		simulate_cornucopia()
+	}
+	else {
+		//On every subsequent day, day proceeds as normal
+		simulate_day()
+	}
+	day_num++;
+}
+
 function simulate_cornucopia(){
+	/* Simulates the cornucopia at the beginning of the Hunger Games.
+	Currently, each tribute has 3 choices
+			0 - run away from the cornucopia
+			1 - find an item
+			2 - fight another tribute (this then uses up the other tribute's action as well as of now)
+	*/
 	var event_text = [];
 	var tribute_order = get_tribute_order();
 	while(tribute_order.length > 0){
@@ -15,7 +33,7 @@ function simulate_cornucopia(){
 		}
 		else if (choice === 1){
 			tribute.items.push(randint(LEN_ITEMS)); //Give player a random item, as determined by item index
-			event_string = `${tribute.name} found ${item_name(tribute.t_id)} in the cornucopia`;
+			event_string = `${tribute.name} found ${item_name(tribute.id)} in the cornucopia`;
 		}
 		else if (choice === 2){
 			var target = tributes[tribute_order.pop()];
@@ -41,100 +59,111 @@ function simulate_cornucopia(){
 
 function simulate_day(){
 	var event_text = [];
-	var tribute_order = get_tribute_order();
+	tribute_order = get_tribute_order();
 
 	while (tribute_order.length > 0){
-		var tribute = tributes[tribute_order.pop()];
-		var event_string = "";
-		var choices = get_choices(tribute);
 
-		var choice = choices[randint(choices.length)]; //Randomly generate a choice from the number of choices, weights to be decided later
+		var	tribute = tributes[tribute_order.pop()];
+		var event_string = "";
+		var choice = get_choice(tribute)
 
 		/*Currently,
-		0 - some base action
-		1 - some other base action
-		2 - use an item
+		<= 0 - some base action
+		<= 1 - some other base action
+		<= 2 - use an item
 		*/
-		switch (choice){
-			case 0: event_text.push("case 0");
-					break;
-			case 1: event_text.push("case 1");
-					break;
-			case 2: var item_i = randint(tribute.items.length);
-					if (item_list[tribute.items[item_i]].type === "weapon"){ event_text.push(use_weapon(tribute, tributes[randint(num_tributes)], item_i)); }
-					else { event_text.push(use_item(tribute, item_i)); }
-					break;
+		if (choice === 0){
+			event_text.push("case 0");
+		}
+		else if (choice <= 1){
+			event_text.push("case 1");
+		}
+		else if (choice <= 2){
+			item_i = randint(tribute.items.length);
+			if (ITEM_LIST[tribute.items[item_i]].type === "weapon"){
+				var result = event_text.push(use_weapon(tribute, item_i)); 
+			}
+			else { 
+				event_text.push(use_item(tribute, item_i)); 
+			}
 		}
 	}
 
 	display_events(event_text);
 }
 
-function get_choices(tribute){
+function get_choice(tribute){
 	//function to add choices based on items in inventory and other factors
-	choices = base_choices.slice();
+	max_choice = MAX_CHOICE;
 
 	if (tribute.items.length > 0){
-		choices.push(2); //Change to use constants later probably
+		max_choice += ITEM_CHANCE; //Change to use constants later probably
 	}
-
-	return choices;
+	return randint(max_choice);
 }
 
 function use_item(tribute, item_i){
-	var ret = item_list[tribute.items[item_i]].used;
+	//TODO: Success or fail
+
+	var event = ITEM_LIST[tribute.items[item_i]].success;
+
+
+	//TODO: Effect of item on player
+	//TODO: Retain or discard item (uses)
+
 	
 	tribute.items.splice(item_i, 1);
 
-	return ret.replace("[player]", tribute.name);
+	return event.replace("[player]", tribute.name);
 }
 
-function use_weapon(tribute, target, weapon_i){
-	var ret = item_list[tribute.items[weapon_i]].used;
-	ret = ret.replace("[player]", tribute.name);
-	ret = ret.replace("[target]", target.name);
+function use_weapon(tribute, weapon_idx){
 
-	tribute.items.splice(weapon_i, 1);
+	var weapon = ITEM_LIST[tribute.items[weapon_idx]];	
+	//TODO: Success or fail
+	console.log(weapon)
 
-	return ret;
-}
+	var roll_result = roll(weapon);
 
-function display_events(event_text){
-	$("div#event_display #events").empty();
+	var event = "";
 
-	while(event_text.length > 0){
-		$("div#event_display #events").append(
-			$('<p>').text(event_text.pop()));
+	//Currently no weapons can great fail or great success, here for the future.
+	if (roll_result === GREAT_FAIL){
+		event = weapon.great_fail;
+	}
+	else if (roll_result === FAIL){
+		event = weapon.fail;
+	}
+	else if (roll_result === SUCCESS){
+		event = weapon.success;
+	}
+	else if (roll_result === GREAT_SUCCESS){
+		event = weapon.great_success;
 	}
 
-	$(".container").css("visibility", "hidden");
-	$("div#event_display").css("visibility", "visible")
-}
+	event = event.replace("[player]", tribute.name);
+	if (event.includes("[target]")){
+		target_id = pick_target_id(tribute.id)
+		event = event.replace("[target]", tributes[target_id].name)
 
-
-function item_name(t, i=-1){
-	/*
-	t - index of tribute
-	i - index of the item in their inventory (NOT in item_list, i.e. not the number this index points to)
-	*/
-	if (i === -1){
-		i = tributes[t].items.length-1;
+		target_fate(target_id, roll_result);
 	}
-	return item_list[tributes[t].items[i]].name;
-}
+	else {
+		target_fate(tribute.id, roll_result);
+	}
 
-function randint(max){
-	//Where the return range is [0, max)
-	return Math.floor(Math.random()*(max));
+	tribute.items.splice(weapon_idx, 1);
+
+	//TODO: Determine if strike was lethal
+
+	return event;
 }
 
 function get_tribute_order(){
-	var temp = [];
-	for (var i=0; i<num_tributes; i++){
-		temp.push(i);
-	}
+	var temp = alive_ids.slice(); //copy alive_ids temporarily
 
-	for (var i=num_tributes-1; i>0; i--){
+	//pick an element to be at the back of the array, switch it there, ignore it for the rest of the sorting
+	for (var i=temp.length-1; i>0; i--){
 		var r = randint(i+1);
 		var t = temp[i];
 		temp[i] = temp[r];
@@ -144,6 +173,5 @@ function get_tribute_order(){
 	return temp;
 }
 
-
-$("#tribute_status #continue").click(simulate_cornucopia);
-$("#event_display #continue").click(simulate_day);
+$("#tribute_status #continue").click(one_day);
+$("#event_display #continue").click(display_status);
