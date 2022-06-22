@@ -3,15 +3,24 @@ function randint(max){
 	return Math.floor(Math.random()*(max));
 }
 
+function random_action(){
+	return ACTIONS[randint(LEN_ACTIONS)]
+}
+
 function roll(item){
 	var r = randint(100);
-	if (r < item.threshold[0]){
+
+	chances = DEFAULT_CHANCES;
+	if ("threshold" in item)
+		chances = item.threshold;
+
+	if (r < chances[0]){
 		return GREAT_FAIL;
 	}
-	else if (r < item.threshold[1]){
+	else if (r < chances[1]){
 		return FAIL;
 	}
-	else if (r < item.threshold[2]){
+	else if (r < chances[2]){
 		return SUCCESS;
 	}
 	else {
@@ -32,8 +41,7 @@ function pick_target_id(t_id){
 
 function kill_tribute(index){
 	//index - index of tribute
-	tributes[index].status_id = DEAD_STATUS;
-	tributes[index].status = STATUS_MSGS[DEAD_STATUS]
+	tributes[index].health = DEAD_STATUS;
 
 	alive_ids.splice(alive_ids.indexOf(index), 1);
 	graveyard.push(tributes[index]);
@@ -43,14 +51,37 @@ function kill_tribute(index){
 	}
 }
 
-function adjust_health(t_id, roll_result){
-	if (roll_result === GREAT_FAIL || roll_result === GREAT_SUCCESS)
-		tributes[t_id].health -= GREAT_RESULT;
-	else if (roll_result === FAIL || roll_result === SUCCESS)
-		tributes[t_id].health -= NORMAL_RESULT;
+function adjust_health(index, roll_result, item_type){
+	var mod = 0;
 
-	if (tributes[t_id].health <= 0){
-		kill_tribute(t_id);
+	if (item_type === WEAPON_TYPE || (item_type === EFFECT_TYPE && roll_result <= FAIL))
+		mod = -1;
+
+	else if (item_type === EFFECT_TYPE)
+		mod = 1;
+
+	else if (item_type === HEAL_TYPE)
+		mod = 1;
+
+	if (roll_result === GREAT_SUCCESS || roll_result === GREAT_FAIL)
+		tributes[index].health += mod*GREAT_RESULT;
+	else if (roll_result === SUCCESS || roll_result === FAIL)
+		tributes[index].health += mod*NORMAL_RESULT;
+
+
+	if (tributes[index].health <= DEAD_STATUS)
+		kill_tribute(index);
+
+	adjust_status(index);
+}
+
+function adjust_health_self(index, roll_result){
+	var mod = 1;
+	if (roll_result === GREAT_FAIL || roll_result === FAIL)
+		mod = -1
+
+	if (roll_result === GREAT_FAIL){
+		tributes[index].health -= GREAT_RESULT;
 	}
 }
 

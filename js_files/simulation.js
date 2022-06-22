@@ -72,20 +72,19 @@ function simulate_day(){
 		<= 1 - some other base action
 		<= 2 - use an item
 		*/
-		if (choice === 0){
-			event_text.push("case 0");
+		if (choice <= ACTION_CHOICE){
+			var action = random_action().replace("[player]", tribute.name);
+			event_text.push(action);
 		}
-		else if (choice <= 1){
+		else if (choice <= OTHER_CHOICE){
 			event_text.push("case 1");
 		}
-		else if (choice <= 2){
+		else if (choice <= ITEM_CHOICE){
+			console.log(tribute);
 			item_i = randint(tribute.items.length);
-			if (ITEM_LIST[tribute.items[item_i]].type === "weapon"){
-				var result = event_text.push(use_weapon(tribute, item_i)); 
-			}
-			else { 
-				event_text.push(use_item(tribute, item_i)); 
-			}
+			item = ITEM_LIST[tribute.items[item_i]];
+			tribute.items.splice(item_i, 1);
+			event_text.push(use_item(tribute, item));
 		}
 	}
 
@@ -102,43 +101,45 @@ function get_choice(tribute){
 	return randint(max_choice);
 }
 
-function use_item(tribute, item_i){
-	//TODO: Success or fail
+function use_item(tribute, item){
+	console.log(item);
+	if (item.type === DEFAULT_TYPE){
+		return item.message.replace("[player]", tribute.name);
+	}
 
-	var event = ITEM_LIST[tribute.items[item_i]].success;
+	else if (item.type === WEAPON_TYPE)
+		return item_effect(tribute, item);
+
+	else if (item.type === EFFECT_TYPE)
+		return item_effect(tribute, item);
+
+	else if (item.type === HEAL_TYPE)
+		adjust_health(tribute.id, SUCCESS, item.type)
+		return item.message.replace("[player]", tribute.name);
 
 
-	//TODO: Effect of item on player
+	//TODO: Effect of item on player - will be done on a type by type basis
 	//TODO: Retain or discard item (uses)
-
-	
-	tribute.items.splice(item_i, 1);
-
-	return event.replace("[player]", tribute.name);
 }
 
-function use_weapon(tribute, weapon_idx){
+function item_effect(tribute, item){
 
-	var weapon = ITEM_LIST[tribute.items[weapon_idx]];	
-	//TODO: Success or fail
-	console.log(weapon)
-
-	var roll_result = roll(weapon);
+	var roll_result = roll(item);
 
 	var event = "";
 
 	//Currently no weapons can great fail or great success, here for the future.
 	if (roll_result === GREAT_FAIL){
-		event = weapon.great_fail;
+		event = item.great_fail;
 	}
 	else if (roll_result === FAIL){
-		event = weapon.fail;
+		event = item.fail;
 	}
 	else if (roll_result === SUCCESS){
-		event = weapon.success;
+		event = item.success;
 	}
 	else if (roll_result === GREAT_SUCCESS){
-		event = weapon.great_success;
+		event = item.great_success;
 	}
 
 	event = event.replace("[player]", tribute.name);
@@ -146,13 +147,11 @@ function use_weapon(tribute, weapon_idx){
 		target_id = pick_target_id(tribute.id)
 		event = event.replace("[target]", tributes[target_id].name)
 
-		target_fate(target_id, roll_result);
+		adjust_health(target_id, roll_result, item.type);
 	}
 	else {
-		target_fate(tribute.id, roll_result);
+		adjust_health(tribute.id, roll_result, item.type);
 	}
-
-	tribute.items.splice(weapon_idx, 1);
 
 	//TODO: Determine if strike was lethal
 

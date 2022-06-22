@@ -41,7 +41,7 @@ function generate_tribute_table(){
 	for (var i=0; i<num_tributes; i++){
 		$("#t_table tbody").append($('<tr>')
 			.append($("<td>").text(tributes[i].name))
-			.append($("<td>").text(tributes[i].status))
+			.append($("<td>").addClass("status_display").text(tributes[i].status))
 			);
 	}
 }
