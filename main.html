@@ -6,8 +6,11 @@
 	<link type="text/css" rel="stylesheet" href="styles.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
 	<script type="text/javascript" src="js_files/vars.js"></script>
+	<script type="text/javascript" src="js_files/funcs.js"></script>
+	<script type="text/javascript" src="js_files/display.js"></script>
 </head>
 <body>
+	<!-- Welcome Page -->
 	<div id="main" class="container">
 		<h1 id="temp">Welcome to the Hunger Games Simulator!</h1>
 		<label>Participants
@@ -16,6 +19,8 @@
 		<input id="continue" type="button" value="Continue"/>
 	</div>
 
+
+	<!-- Entering tribute names -->
 	<div id="tribute_entry" class="container">
 		<table>
 			<tbody id="input_table">
@@ -24,6 +29,8 @@
 		</table>
 	</div>
 
+
+	<!-- The current status of all tributes -->
 	<div id="tribute_status" class="container">
 		<table id="t_table">
 			<thead>
@@ -35,6 +42,8 @@
 		<input id="continue" type="button" value="Continue"/>
 	</div>
 
+
+	<!-- The events that happened in a given day -->
 	<div id="event_display" class="container">
 		<div id="events"></div>
 		<input id="continue" type="button" value="Continue"/>
