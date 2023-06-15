@@ -58,3 +58,13 @@ table {
 input {
 	color: black;
 }
+
+input[type=button] {
+	background-color: #f4511e;
+	border-radius: 5px;
+	border-color: #c8310e;
+	color: #fff;
+	padding: 4px 8px;
+	margin: 0px 2px;
+	cursor: pointer;
+}
