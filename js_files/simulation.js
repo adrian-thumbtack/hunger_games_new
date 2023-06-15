@@ -123,7 +123,12 @@ function get_choice(tribute){
 
 function use_item(tribute, item){
 	if (item.type === DEFAULT_TYPE){
-		return item.message.replace("[player]", tribute.name);
+		var action = item.message.replace("[player]", tribute.name);
+		if (msg.includes("[target]")){
+			var target_id = pick_target_id(tribute.id)
+			action = action.replace("[target]", tributes[target_id].name);
+		}
+		return action;
 	}
 
 	else if (item.type === WEAPON_TYPE)

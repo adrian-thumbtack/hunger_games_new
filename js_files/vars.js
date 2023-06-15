@@ -135,6 +135,11 @@ const ITEM_LIST = [{
 	name: "findings",
 	type: DEFAULT_TYPE,
 	message: "[player] becomes the most successful paleontologist from Vatican City"},
+{
+	name: "paintball",
+	type: DEFAULT_TYPE,
+	message: "[player] is a paintball, so [target] can bring one less paintball"
+}
 ];	
 
 var LEN_ITEMS = ITEM_LIST.length;
