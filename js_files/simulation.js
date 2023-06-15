@@ -42,12 +42,14 @@ function simulate_cornucopia(){
 			var kill = randint(3);
 			if (kill === 0){
 				event_string += `. ${tribute.name} is overwhelmed and injured.`;
+				adjust_health(tribute.id, FAIL, EFFECT_TYPE);
 			}
 			else if (kill === 1){
 				event_string += `. They are evenly matched, and nothing happens.`;
 			}
 			else {
 				event_string += ` and kills them.`;
+				kill_tribute(target.id);
 			}
 		}
 
@@ -64,32 +66,45 @@ function simulate_day(){
 	while (tribute_order.length > 0){
 
 		var	tribute = tributes[tribute_order.pop()];
-		var event_string = "";
 		var choice = get_choice(tribute)
 
 		/*Currently,
-		<= 0 - generic action
-		<= 1 - find an item
-		<= 2 - use an item
+		<= 0-1 - generic action
+		<= 2-3 - find an item
+		<= 4 - death event
+		<= 5-6 - use an item
 		*/
-		if (choice <= ACTION_CHOICE){
-			var action = random_action().replace("[player]", tribute.name);
-			if (action.includes("[target]")){
-				target_id = pick_target_id(tribute.id)
-				action.replace("[target]", tributes[target_id].name);
+		if (tribute.health > DEAD_STATUS){
+			if (choice <= ACTION_CHOICE){
+				var action = random_action().replace("[player]", tribute.name);
+				if (action.includes("[target]")){
+					target_id = pick_target_id(tribute.id)
+					action = action.replace("[target]", tributes[target_id].name);
+				}
+				event_text.push(action);
 			}
-			event_text.push(action);
-		}
-		else if (choice <= FIND_CHOICE){
-			tribute.items.push(randint(LEN_ITEMS)); //Give player a random item, as determined by item index
-			event_text.push(`${tribute.name} found ${item_name(tribute.id)} in the cornucopia`);
-		}
-		else if (choice <= ITEM_CHOICE){
-			console.log(tribute);
-			item_i = randint(tribute.items.length);
-			item = ITEM_LIST[tribute.items[item_i]];
-			tribute.items.splice(item_i, 1);
-			event_text.push(use_item(tribute, item));
+			else if (choice <= FIND_CHOICE){
+				tribute.items.push(randint(LEN_ITEMS)); //Give player a random item, as determined by item index
+				event_text.push(`${tribute.name} found ${item_name(tribute.id)} in the cornucopia`);
+			}
+			else if (choice <= DEATH_CHOICE){
+				var death = random_death().replace("[player]", tribute.name);
+				if (death.includes("[target]")){
+					target_id = pick_target_id(tribute.id);
+					death = death.replace("[target]", tributes[target_id].name);
+					kill_tribute(target_id);
+				}
+				else {
+					kill_tribute(tribute.id);
+				}
+				event_text.push(death);
+			}
+			else if (choice <= ITEM_CHOICE){
+				item_i = randint(tribute.items.length);
+				item = ITEM_LIST[tribute.items[item_i]];
+				tribute.items.splice(item_i, 1);
+				event_text.push(use_item(tribute, item));
+			}
 		}
 	}
 

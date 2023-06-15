@@ -4,7 +4,11 @@ function randint(max){
 }
 
 function random_action(){
-	return ACTIONS[randint(LEN_ACTIONS)]
+	return ACTIONS[randint(LEN_ACTIONS)];
+}
+
+function random_death(){
+	return INSTANT_DEATH[randint(LEN_DEATH)];
 }
 
 function roll(item){
@@ -49,6 +53,8 @@ function kill_tribute(index){
 	if (tribute_order.indexOf(index) >= 0){
 		tribute_order.splice(tribute_order.indexOf(index), 1);
 	}
+
+	adjust_status(index);
 }
 
 function adjust_health(index, roll_result, item_type){
@@ -71,8 +77,9 @@ function adjust_health(index, roll_result, item_type){
 
 	if (tributes[index].health <= DEAD_STATUS)
 		kill_tribute(index);
-
-	adjust_status(index);
+	else {
+		adjust_status(index);
+	}
 }
 
 function adjust_health_self(index, roll_result){

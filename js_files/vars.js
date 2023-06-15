@@ -15,13 +15,14 @@ const STATUS_MSGS = [
 
 const CORN_CHOICES = 3; //Number of choices at the cornucopia
 
-const MAX_CHOICE = 2;
-const ITEM_CHANCE = 1;
+const MAX_CHOICE = 4;
+const ITEM_CHANCE = 2;
 
 //Possible choices, defined as if choice < CHOICE constant, pick that choice (choose the most specific constant that applies)
-const ACTION_CHOICE = 0; //TODO: Define base choice 1
-const FIND_CHOICE = 1; //TODO: Define base choice 2
-const ITEM_CHOICE = 2 //The value corresponding to using an item
+const ACTION_CHOICE = 1; //generic action - 2/5, 2/7 (with item)
+const FIND_CHOICE = 3; //finding item - 2/5, 2/7
+const DEATH_CHOICE = 4; //instant death - 1/5, 1/7
+const ITEM_CHOICE = 6 //using an item - 2/7 (with item)
 
 const GREAT_FAIL = 0;
 const FAIL = 1;
@@ -112,7 +113,7 @@ const ITEM_LIST = [{
 {
 	name: "spiritual enlightenment in a Villanova brochure",
 	type: DEFAULT_TYPE,
-	message: "sees the light and adheres to the all-boy advantage"},
+	message: "[player] sees the light and adheres to Villanova doctrine"},
 {
 	name: "diamond pickaxe",
 	type: DEFAULT_TYPE,
@@ -124,7 +125,8 @@ const ITEM_LIST = [{
 {
 	name: "chocolate-covered cotton",
 	type: DEFAULT_TYPE,
-	message: "[player] gets indigestion from too much chocolate-covered cotton"},
+	fail: "[player] gets indigestion from too much chocolate-covered cotton",
+	threshold: [0, 100]},
 {
 	name: "stick of Old Spice deodorant",
 	type: DEFAULT_TYPE,
@@ -162,7 +164,6 @@ const ACTIONS = [
 "[player] catches in the rye",
 "[player] raises the mission requirement to 65",
 "[player] tries to post a Vine",
-"[player] changes genders",
 "[player] angrily emails finance club about not being on the A team",
 "[player] finds Chuck Norris",
 "[player] fights the Ender dragon",
@@ -173,10 +174,45 @@ const ACTIONS = [
 "[player] finds Nemo",
 "[player] talks to [target]",
 "[player] drops a rant against [target]",
-"[player] hides from [target]"
+"[player] hides from [target]",
 ];
 
+
+const INJURE_EVENTS = [
+"[player] yells \"woag wiag wiag\" at [target]",
+"[player] roundhouse kicks [target]"];
+
+
+const INSTANT_DEATH = [
+"[player] strangles [target]",
+"[player] dies of Ebola",
+"[player] gets crushed by an unstable truss",
+"[player] forgets to get the AED for [target]",
+"[player] decides to take a permanent nap",
+"[player] falls off a cliff while playing Pokemon Go",
+"[target] gets nuked from orbit by [player]",
+"[player] chokes on crabapples in cheeks",
+"[player] forgets how to breathe",
+"[player] uses dank memes to kill [target]",
+"[player] calls the navy seals to kill [target]",
+"[player] gets hit by a hurricane",
+"[player] falls through a portal into the blender dimension",
+"[player] loses circulation looking too good in those tight shorts",
+"[player] loses circulation looking too tight in those good shorts",
+"[player] fell into the void",
+"[player] was slain by a zombie pigman",
+"[player] withered away",
+"[player] receives a bad Bishan test and dies",
+"[player] dies after a botched birthmark removal surgery",
+"[player] curses on a Christian server and gets smote",
+"[player] spontaneously combusts",
+"[player] lost connection to the server",
+"[player] falls in a well",
+"[player] dies in the Matrix",
+"[player] succumbs to lethal peer pressure from [target]"];
+
 var LEN_ACTIONS = ACTIONS.length;
+var LEN_DEATH = INSTANT_DEATH.length;
 
 //TODO: Add possible not item-related deaths
 //Old actions: use "places head between two inconspicuously placed logs" as a possible death
