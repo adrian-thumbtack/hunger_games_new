@@ -49,6 +49,7 @@ function simulate_cornucopia(){
 			}
 			else {
 				event_string += ` and kills them.`;
+				event_string = `d_flag` + event_string;
 				kill_tribute(target.id);
 			}
 		}
@@ -97,7 +98,7 @@ function simulate_day(){
 				else {
 					kill_tribute(tribute.id);
 				}
-				event_text.push(death);
+				event_text.push("d_flag" + death);
 			}
 			else if (choice <= ITEM_CHOICE){
 				item_i = randint(tribute.items.length);
@@ -138,7 +139,7 @@ function use_item(tribute, item){
 		return item_effect(tribute, item);
 
 	else if (item.type === HEAL_TYPE)
-		adjust_health(tribute.id, SUCCESS, item.type)
+		adjust_health(tribute.id, SUCCESS, item_type=item.type);
 		return item.message.replace("[player]", tribute.name);
 
 
@@ -171,10 +172,10 @@ function item_effect(tribute, item){
 		target_id = pick_target_id(tribute.id)
 		event = event.replace("[target]", tributes[target_id].name)
 
-		adjust_health(target_id, roll_result, item.type);
+		adjust_health(target_id, roll_result, item.type, action=event);
 	}
 	else {
-		adjust_health(tribute.id, roll_result, item.type);
+		adjust_health(tribute.id, roll_result, item.type, action=event);
 	}
 
 	//TODO: Determine if strike was lethal
@@ -197,4 +198,5 @@ function get_tribute_order(){
 }
 
 $("#tribute_status #continue").click(one_day);
-$("#event_display #continue").click(display_status);
+$("#event_display #continue").click(display_fallen);
+$("#fallen_display #continue").click(display_status)

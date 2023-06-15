@@ -75,8 +75,11 @@ function adjust_health(index, roll_result, item_type=EFFECT_TYPE, action=""){
 		tributes[index].health += mod*NORMAL_RESULT;
 
 
-	if (tributes[index].health <= DEAD_STATUS)
+	if (tributes[index].health <= DEAD_STATUS){
 		kill_tribute(index);
+		action = "d_flag" + action;
+	}
+
 	else {
 		adjust_status(index);
 	}

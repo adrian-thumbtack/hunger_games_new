@@ -4,6 +4,8 @@ var alive_ids = []; //Alive tributes
 var graveyard = []; //what it sounds like
 var tribute_order = []; //Current tribute order
 var day_num = 1 // What day is it?
+var death_text = []; //how everyone died
+var death_counter = 0;
 
 const ALIVE_STATUS = 2;
 const INJURED_STATUS = 1;
@@ -15,7 +17,7 @@ const STATUS_MSGS = [
 
 const STATUS_COLORS = [
 "red",
-"white",
+"yellow",
 "lime"];
 
 const CORN_CHOICES = 3; //Number of choices at the cornucopia
@@ -147,9 +149,9 @@ const ITEM_LIST = [{
 {
 	name: "dead platypus",
 	type: WEAPON_TYPE,
-	success: "[player] whacks [target] to death with a dead platypus",
+	great_success: "[player] whacks [target] to death with a dead platypus",
 	great_fail: "[player] revives a dead platypus that murders them in anger",
-	threshold: [2, 2, 100]}
+	threshold: [10, 10, 10, 100]}
 ];	
 
 var LEN_ITEMS = ITEM_LIST.length;
