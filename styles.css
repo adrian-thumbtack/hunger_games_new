@@ -68,3 +68,11 @@ input[type=button] {
 	margin: 0px 2px;
 	cursor: pointer;
 }
+
+input[type=text], input[type=number] {
+	border: none;
+	border-bottom: 2px solid #ffa705;
+	background-color: #7f7f7f;
+	color: white;
+	padding: 5px;
+}
