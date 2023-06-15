@@ -2,13 +2,15 @@ function display_events(event_text){
 	$("div#event_display #events").empty();
 
 	while(event_text.length > 0){
-		if (event_text.includes("d_flag")){
-			event_text = event_text.substring(6);
-			death_text.push(event_text);
+		var msg = event_text.shift();
+
+		if (msg.includes("d_flag")){
+			msg = msg.substring(6);
+			death_text.push(msg);
 		}
 
 		$("div#event_display #events").append(
-			$('<p>').text(event_text.shift()));
+			$('<p>').text(msg));
 	}
 
 	$(".container").css("visibility", "hidden");
