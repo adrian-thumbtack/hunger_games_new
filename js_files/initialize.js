@@ -3,7 +3,7 @@ function proceed_to_names(){
 
 	num_tributes = $("#t_num").val();
 	if (num_tributes < 2){
-		alert("You can\'t fight a hunger games with just that many people, buddy");
+		alert("Are you sure you want 1 participants, buddy?");
 	}
 	else {
 		for (var i=0; i<num_tributes; i++){

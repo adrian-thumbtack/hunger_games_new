@@ -68,16 +68,21 @@ function simulate_day(){
 		var choice = get_choice(tribute)
 
 		/*Currently,
-		<= 0 - some base action
-		<= 1 - some other base action
+		<= 0 - generic action
+		<= 1 - find an item
 		<= 2 - use an item
 		*/
 		if (choice <= ACTION_CHOICE){
 			var action = random_action().replace("[player]", tribute.name);
+			if (action.includes("[target]")){
+				target_id = pick_target_id(tribute.id)
+				action.replace("[target]", tributes[target_id].name);
+			}
 			event_text.push(action);
 		}
-		else if (choice <= OTHER_CHOICE){
-			event_text.push("case 1");
+		else if (choice <= FIND_CHOICE){
+			tribute.items.push(randint(LEN_ITEMS)); //Give player a random item, as determined by item index
+			event_text.push(`${tribute.name} found ${item_name(tribute.id)} in the cornucopia`);
 		}
 		else if (choice <= ITEM_CHOICE){
 			console.log(tribute);
@@ -102,7 +107,6 @@ function get_choice(tribute){
 }
 
 function use_item(tribute, item){
-	console.log(item);
 	if (item.type === DEFAULT_TYPE){
 		return item.message.replace("[player]", tribute.name);
 	}
