@@ -20,7 +20,7 @@ const ITEM_CHANCE = 1;
 
 //Possible choices, defined as if choice < CHOICE constant, pick that choice (choose the most specific constant that applies)
 const ACTION_CHOICE = 0; //TODO: Define base choice 1
-const OTHER_CHOICE = 1; //TODO: Define base choice 2
+const FIND_CHOICE = 1; //TODO: Define base choice 2
 const ITEM_CHOICE = 2 //The value corresponding to using an item
 
 const GREAT_FAIL = 0;
