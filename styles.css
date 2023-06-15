@@ -8,6 +8,14 @@ body {
 	background: linear-gradient(#222222, #000000);
 }
 
+div.bgimg {
+	position: absolute;
+	top: calc(50px + 50vh - min(25vw, calc(25vh - 25px)));
+	left: calc(50vw - min(25vw, calc(25vh - 25px)));
+	opacity: 0.20;
+	width: min(50vw,calc(50vh - 50px));
+}
+
 .header {
 	position: absolute;
 	top: 0;
