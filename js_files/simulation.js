@@ -65,7 +65,8 @@ function simulate_day(){
 	tribute_order = get_tribute_order();
 
 	while (tribute_order.length > 0){
-
+		if (alive_ids.length === 1) {break;}
+		
 		var	tribute = tributes[tribute_order.pop()];
 		var choice = get_choice(tribute)
 
