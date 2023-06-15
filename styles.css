@@ -9,10 +9,10 @@ div.container {
 	left: 0;
 	height: 100vh;
 	width: 100vw;
-	background-image:url("http://bestscreenwallpaper.pro/wp-content/uploads/2015/11/Logo-The-Hunger-Games-Mockingjay-Part-2.jpg");
-	-webkit-background-size:cover;
+	background-color:black;
+	/*-webkit-background-size:cover;
 	-moz-background-size:cover;
-	background-size:cover;
+	background-size:cover;*/
 }
 
 div.container:not(#main) {
