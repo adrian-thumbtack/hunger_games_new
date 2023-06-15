@@ -13,6 +13,11 @@ const STATUS_MSGS = [
 "Injured",
 "Alive"];
 
+const STATUS_COLORS = [
+"red",
+"white",
+"lime"];
+
 const CORN_CHOICES = 3; //Number of choices at the cornucopia
 
 const MAX_CHOICE = 4;
@@ -138,8 +143,13 @@ const ITEM_LIST = [{
 {
 	name: "paintball",
 	type: DEFAULT_TYPE,
-	message: "[player] is a paintball, so [target] can bring one less paintball"
-}
+	message: "[player] is a paintball, so [target] can bring one less paintball"},
+{
+	name: "dead platypus",
+	type: WEAPON_TYPE,
+	success: "[player] whacks [target] to death with a dead platypus",
+	great_fail: "[player] revives a dead platypus that murders them in anger",
+	threshold: [2, 2, 100]}
 ];	
 
 var LEN_ITEMS = ITEM_LIST.length;

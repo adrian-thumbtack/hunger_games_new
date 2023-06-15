@@ -19,4 +19,5 @@ function display_status(){
 function adjust_status(idx){
 	tributes[idx].status = STATUS_MSGS[tributes[idx].health]
 	$("td.status_display").eq(idx).text(tributes[idx].status)
+	$("td.status_display").eq(idx).css("color", STATUS_COLORS[tributes[idx].health])
 }
