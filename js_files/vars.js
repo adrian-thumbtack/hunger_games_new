@@ -129,7 +129,7 @@ const ITEM_LIST = [{
 	message: "[player] eats a singular spaghetti"},
 {
 	name: "chocolate-covered cotton",
-	type: DEFAULT_TYPE,
+	type: EFFECT_TYPE,
 	fail: "[player] gets indigestion from too much chocolate-covered cotton",
 	threshold: [0, 100]},
 {
