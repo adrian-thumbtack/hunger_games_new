@@ -57,7 +57,7 @@ function kill_tribute(index){
 	adjust_status(index);
 }
 
-function adjust_health(index, roll_result, item_type){
+function adjust_health(index, roll_result, item_type=EFFECT_TYPE, action=""){
 	var mod = 0;
 
 	if (item_type === WEAPON_TYPE || (item_type === EFFECT_TYPE && roll_result <= FAIL))
@@ -80,6 +80,8 @@ function adjust_health(index, roll_result, item_type){
 	else {
 		adjust_status(index);
 	}
+
+	return action;
 }
 
 function adjust_health_self(index, roll_result){

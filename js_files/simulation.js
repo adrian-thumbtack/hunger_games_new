@@ -124,7 +124,7 @@ function get_choice(tribute){
 function use_item(tribute, item){
 	if (item.type === DEFAULT_TYPE){
 		var action = item.message.replace("[player]", tribute.name);
-		if (msg.includes("[target]")){
+		if (action.includes("[target]")){
 			var target_id = pick_target_id(tribute.id)
 			action = action.replace("[target]", tributes[target_id].name);
 		}
