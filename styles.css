@@ -3,13 +3,14 @@
 	font-family: arial;
 }
 
+body {background-color:black;}
+
 div.container {
 	position: absolute;
 	top: 0;
-	left: 0;
-	height: 100vh;
-	width: 100vw;
-	background-color:black;
+	left: 2vw;
+	height: 97vh;
+	width: 96vw;
 	/*-webkit-background-size:cover;
 	-moz-background-size:cover;
 	background-size:cover;*/
